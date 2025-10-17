@@ -24,16 +24,13 @@ public class CsvExporter {
     };
     
     public void exportToCsv(List<Transaction> transactions, String filename) throws IOException {
-        // Add .csv extension if not present
         if (!filename.toLowerCase().endsWith(".csv")) {
             filename = filename + ".csv";
         }
         
         try (CSVWriter writer = new CSVWriter(new FileWriter(filename))) {
-            // Write header
             writer.writeNext(HEADER);
             
-            // Write transaction rows
             for (Transaction transaction : transactions) {
                 String[] row = transaction.toCsvRow();
                 writer.writeNext(row);
@@ -44,14 +41,12 @@ public class CsvExporter {
     }
 
     public String exportWithSummary(List<Transaction> transactions, String filename) throws IOException {
-        // Add .csv extension if not present
         if (!filename.toLowerCase().endsWith(".csv")) {
             filename = filename + ".csv";
         }
         
         exportToCsv(transactions, filename);
         
-        // Calculate statistics
         long normalCount = transactions.stream()
                 .filter(t -> t.getType().name().equals("ETH_TRANSFER"))
                 .count();

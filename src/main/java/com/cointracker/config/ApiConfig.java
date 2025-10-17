@@ -28,7 +28,6 @@ public class ApiConfig {
     }
     
     private void resolveEnvironmentVariables() {
-        // Resolve ${ETHERSCAN_API_KEY:default} patterns
         for (String key : properties.stringPropertyNames()) {
             String value = properties.getProperty(key);
             if (value.startsWith("${") && value.endsWith("}")) {

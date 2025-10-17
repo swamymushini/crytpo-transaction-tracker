@@ -43,48 +43,46 @@ crypto-transaction-tracker/
     │   │   ├── Main.java               # Application entry point
     │   │   │
     │   │   ├── client/                 # API Communication Layer
-    │   │   │   ├── BlockchainApiClient.java      # Strategy interface for API providers
-    │   │   │   └── EtherscanApiClient.java       # Etherscan API implementation
+    │   │   │   ├── BlockchainApiClient.java      # Strategy interface
+    │   │   │   └── EtherscanApiClient.java       # Etherscan implementation
     │   │   │
     │   │   ├── config/                 # Configuration Management
-    │   │   │   └── ApiConfig.java                # Loads application.properties
+    │   │   │   └── ApiConfig.java                # Properties loader
     │   │   │
-    │   │   ├── dto/                    # Data Transfer Objects (API responses)
-    │   │   │   ├── ApiResponse.java              # Generic API response wrapper
+    │   │   ├── dto/                    # Data Transfer Objects
+    │   │   │   ├── ApiResponse.java              # API response wrapper
     │   │   │   └── TransactionDto.java           # Transaction data from API
     │   │   │
-    │   │   ├── model/                  # Domain Models (Business Objects)
+    │   │   ├── model/                  # Domain Models (POJOs)
     │   │   │   ├── Transaction.java              # Abstract base class
-    │   │   │   ├── TransactionType.java          # Enum: ETH_TRANSFER, ETH_INTERNAL, ERC20, ERC721
-    │   │   │   ├── NormalTransaction.java        # ETH transfer model
-    │   │   │   ├── InternalTransaction.java      # Internal transaction model
-    │   │   │   ├── Erc20Transaction.java         # ERC-20 token model
-    │   │   │   └── Erc721Transaction.java        # ERC-721 NFT model
+    │   │   │   ├── TransactionType.java          # Enum
+    │   │   │   ├── NormalTransaction.java
+    │   │   │   ├── InternalTransaction.java
+    │   │   │   ├── Erc20Transaction.java
+    │   │   │   └── Erc721Transaction.java
     │   │   │
     │   │   ├── service/                # Business Logic Layer
-    │   │   │   ├── TransactionService.java       # Orchestrates transaction fetching
-    │   │   │   └── TransactionMapper.java        # Maps DTO → Domain Model
+    │   │   │   ├── TransactionService.java
+    │   │   │   └── TransactionMapper.java
     │   │   │
     │   │   └── export/                 # CSV Export Layer
-    │   │       └── CsvExporter.java              # Generates CSV files
+    │   │       └── CsvExporter.java
     │   │
     │   └── resources/
-    │       └── application.properties            # Configuration (API keys, endpoints, rate limits)
+    │       └── application.properties            # Configuration
     │
     └── test/
         └── java/com/cointracker/
-            ├── MainTest.java                     # End-to-end integration tests
+            ├── MainTest.java
             ├── client/
-            │   └── EtherscanApiClientTest.java   # API client integration tests
+            │   └── EtherscanApiClientTest.java
             └── service/
-                └── TransactionServiceTest.java   # Service layer unit tests
+                └── TransactionServiceTest.java
 ```
 
 ## 🚀 Setup & Installation
 
 ### Prerequisites
-
-Before running this project, ensure you have the following installed:
 
 - **Java 17** or higher ([Download](https://adoptium.net/))
 - **Maven 3.6+** ([Download](https://maven.apache.org/download.cgi))
@@ -128,16 +126,14 @@ mvn clean compile
 mvn exec:java -Dexec.args="<ETHEREUM_ADDRESS>"
 ```
 
-**Example with sample addresses:**
+**Example:**
 ```bash
-# Sample address with all transaction types
+# Vitalik's address (has all transaction types)
 mvn exec:java -Dexec.args="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
 
-# Another sample address with token transfers
+# Sample address with token transfers
 mvn exec:java -Dexec.args="0xa39b189482f984388a34460636fea9eb181ad1a6"
 ```
-
-**Note:** The CSV file will be saved in the current directory (project root) with the Ethereum address as the filename.
 
 ### Expected Output
 
@@ -145,21 +141,28 @@ mvn exec:java -Dexec.args="0xa39b189482f984388a34460636fea9eb181ad1a6"
 ================================================================================
 🔍 Ethereum Transaction Tracker
 ================================================================================
+🔌 API Provider: etherscan
 📍 Address: 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
 🔑 API Key: X76IWJ4V************************
 ================================================================================
 
 📥 Fetching normal transactions...
    ✓ Found 127 normal transactions
+   ⏸️  Cooling down for 2000ms...
+
 📥 Fetching internal transactions...
    ✓ Found 43 internal transactions
+   ⏸️  Cooling down for 2000ms...
+
 📥 Fetching ERC-20 token transfers...
    ✓ Found 89 ERC-20 transfers
+   ⏸️  Cooling down for 2000ms...
+
 📥 Fetching ERC-721 NFT transfers...
    ✓ Found 12 ERC-721 transfers
 
 💾 Exporting to CSV...
-✅ Successfully exported 271 transactions to: eth_transactions_0xd8dA6BF2.csv
+✅ Successfully exported 271 transactions
 
 📊 Export Summary:
    • Total Transactions: 271
@@ -167,7 +170,7 @@ mvn exec:java -Dexec.args="0xa39b189482f984388a34460636fea9eb181ad1a6"
    • Internal Transfers: 43
    • ERC-20 Transfers: 89
    • ERC-721 NFT Transfers: 12
-   • Output File: eth_transactions_0xd8dA6BF2.csv
+   • Output File: 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
 
 ================================================================================
 ✨ Transaction tracking complete!
@@ -199,22 +202,12 @@ The generated CSV contains 10 columns:
 mvn test
 ```
 
-**Expected Output:**
+### Expected Output
+
 ```
 [INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
 [INFO] BUILD SUCCESS
 ```
-
-### Test Structure
-
-The project includes 10 comprehensive tests across 3 test classes:
-
-1. **EtherscanApiClientTest** - Integration tests with real Etherscan API
-2. **TransactionServiceTest** - Unit tests with mock API client  
-3. **MainTest** - End-to-end integration tests
-
----
-
 
 ## 🏛️ Architecture Decisions
 
@@ -225,7 +218,6 @@ The project includes 10 comprehensive tests across 3 test classes:
 **Why:**
 - Allows easy switching between API providers (Etherscan, Alchemy, Infura)
 - Makes the codebase extensible without modifying existing code
-- Enables provider-specific optimizations
 
 **Implementation:**
 ```java
@@ -233,23 +225,16 @@ BlockchainApiClient apiClient = new EtherscanApiClient(config);
 TransactionService service = new TransactionService(apiClient, config);
 ```
 
-**Benefit:** To switch to Alchemy, just create `AlchemyApiClient` implementing the same interface.
-
 ---
 
-### 2. **Layered Architecture (Separation of Concerns)**
+### 2. **Adapter Pattern**
 
-**Decision:** Organized code into distinct layers: Client → Service → Export
+**Decision:** `EtherscanApiClient` acts as an adapter between Etherscan API and our domain models
 
 **Why:**
-- **Client Layer**: Handles all HTTP communication and API-specific logic
-- **Service Layer**: Business logic (orchestration, sorting, filtering)
-- **Export Layer**: Output formatting (CSV generation)
-
-**Benefit:** 
-- Each layer can be tested independently
-- Changes in one layer don't affect others
-- Easy to add new export formats (JSON, XML) without touching API code
+- Isolates external API structure from internal business logic
+- API changes only affect the adapter layer
+- Clean separation: API responses (DTOs) → Domain Models (POJOs)
 
 ---
 
@@ -259,8 +244,7 @@ TransactionService service = new TransactionService(apiClient, config);
 
 **Why:**
 - Etherscan has limitation: `page × offset ≤ 10,000`
-- Page-based pagination fails for addresses with >10k transactions
-- Block-range pagination is unlimited
+- Block-range pagination is unlimited and more reliable
 
 **Implementation:**
 ```java
@@ -271,8 +255,6 @@ while (hasMore) {
     startBlock = lastBlockNumber + 1;
 }
 ```
-
-**Benefit:** Can fetch millions of transactions for high-activity wallets.
 
 ---
 
@@ -285,138 +267,40 @@ while (hasMore) {
 - Free Etherscan API tier has rate limits (5 calls/sec)
 - Configurable via `application.properties`
 
-**Configuration:**
-```properties
-api.rate_limit.delay_between_calls_ms=500
-api.rate_limit.delay_between_types_ms=2000
-```
-
-**Benefit:** Reliable API calls without hitting rate limits.
-
 ---
 
-### 5. **Configuration Management with Environment Variables**
-
-**Decision:** Centralized configuration in `application.properties` with environment variable support
-
-**Why:**
-- Keeps sensitive data (API keys) out of source code
-- Easy to change configuration without recompiling
-- Falls back to default API key if environment variable is not set
-
-**Configuration:**
-```properties
-api.etherscan.api_key=${ETHERSCAN_API_KEY:X76IWJ4VFP9F6D15SIIEIB6Y8SM458ZMAA}
-api.etherscan.batch_size=10000
-```
-
-**How it works:**
-- If `ETHERSCAN_API_KEY` environment variable is set → uses that value
-- If not set → uses the default key `X76IWJ4VFP9F6D15SIIEIB6Y8SM458ZMAA`
-
-**Benefit:** Works out-of-the-box for testing, secure for production when using your own API key.
-
----
-
----
-
-## 🎯 Domain Models (POJOs)
-
-The application uses a hierarchy of Plain Old Java Objects (POJOs) to represent different transaction types:
-
-### Transaction Hierarchy
-
-```java
-Transaction (abstract base class)
-├── NormalTransaction      // Regular ETH transfers
-├── InternalTransaction    // Internal contract calls
-├── Erc20Transaction       // ERC-20 token transfers
-└── Erc721Transaction      // ERC-721 NFT transfers
-```
-
-**Key Properties:**
-- `hash`: Unique transaction identifier
-- `timestamp`: Unix epoch timestamp
-- `from`, `to`: Sender and recipient addresses
-- `value`: Transaction amount (in Wei for ETH, adjusted for tokens)
-- `gasUsed`, `gasPrice`: Gas fee calculation data
-- `type`: Enum (ETH_TRANSFER, ETH_INTERNAL, ERC20, ERC721)
-
-**ERC-20 Specific:**
-- `tokenSymbol`, `tokenName`: Token identification
-- `tokenDecimal`: For amount conversion
-
-**ERC-721 Specific:**
-- `tokenID`: Unique NFT identifier
-- `tokenName`: NFT collection name
-
----
-
-## 🔌 Design Patterns Used
+## 🎨 Design Patterns Used
 
 ### 1. **Strategy Pattern**
-
-**Interface:** `BlockchainApiClient`
-
-**Purpose:** Allows switching between different blockchain API providers without changing business logic.
-
-**Current Implementation:**
-- `EtherscanApiClient` - Etherscan API V2 integration
-
-**Future Implementations:**
-- `AlchemyApiClient` - Alchemy API
-- `InfuraApiClient` - Infura API
-
-**Usage in Code:**
-```java
-// Main.java
-BlockchainApiClient apiClient = new EtherscanApiClient(config);
-TransactionService service = new TransactionService(apiClient, config);
-```
-
-**Benefit:** Easy to add new API providers by implementing the `BlockchainApiClient` interface.
-
----
+- **Interface**: `BlockchainApiClient`
+- **Implementation**: `EtherscanApiClient`
+- **Purpose**: Easy switching between API providers
 
 ### 2. **Adapter Pattern**
+- **Adapter**: `EtherscanApiClient` adapts Etherscan REST API
+- **Purpose**: Converts external API format to internal domain models
 
-**Purpose:** Adapts Etherscan's REST API response format to our internal domain models.
-
-**Components:**
-- `TransactionDto` - Raw API response structure
-- `TransactionMapper` - Converts DTO → Domain Model
-- `Transaction` models - Clean domain objects
-
-**Flow:**
-```
-Etherscan API → TransactionDto → TransactionMapper → Transaction (Domain Model)
-```
-
-**Benefit:** Isolates external API structure from internal business logic. API changes only affect the adapter layer.
+### 3. **POJO Models (Plain Old Java Objects)**
+- **Models**: `NormalTransaction`, `InternalTransaction`, `Erc20Transaction`, `Erc721Transaction`
+- **Base Class**: Abstract `Transaction` class
+- **Purpose**: Clean domain objects separate from API responses
 
 ---
 
-## ⏱️ Rate Limiting & API Cooling Periods
+## ⏱️ Rate Limiting & Cooling Periods
 
-To prevent API throttling and ensure reliable data fetching, the application implements configurable delays:
+The application implements configurable delays to prevent API throttling:
 
 ### Cooling Periods
 
-1. **Between API Calls:** 500ms delay
-   - Prevents hitting Etherscan's rate limit (5 calls/sec for free tier)
-   
-2. **Between Transaction Types:** 2000ms delay
-   - Allows cooling period after fetching all records of one type
-   - Reduces risk of "429 Too Many Requests" errors
+1. **Between API Calls:** 500ms delay (prevents rate limit)
+2. **Between Transaction Types:** 2000ms delay (cooling period)
 
 ### Configuration
 
-These values are configurable in `application.properties`:
-
 ```properties
-# Rate limiting configuration
-api.rate_limit.delay_between_calls_ms=500        # Delay between pagination calls
-api.rate_limit.delay_between_types_ms=2000       # Delay between transaction types
+api.rate_limit.delay_between_calls_ms=500
+api.rate_limit.delay_between_types_ms=2000
 ```
 
 **Console Output:**
@@ -424,249 +308,65 @@ api.rate_limit.delay_between_types_ms=2000       # Delay between transaction typ
 📥 Fetching normal transactions...
    ✓ Found 23 normal transactions
    ⏸️  Cooling down for 2000ms...
-
-📥 Fetching internal transactions...
 ```
 
 ---
 
 ## ⚙️ Configurable Properties
 
-All configuration is centralized in `src/main/resources/application.properties`. You may wish to customize:
-
-### API Configuration
+All configuration is in `src/main/resources/application.properties`:
 
 ```properties
 # API Provider Selection
-api.provider=etherscan                                    # Options: etherscan (more providers coming soon)
+api.provider=etherscan
 
-# Etherscan API Settings
-api.etherscan.base_url=https://api.etherscan.io/v2/api   # Change for testnets (e.g., goerli, sepolia)
-api.etherscan.chain_id=1                                  # 1=Ethereum Mainnet, 5=Goerli, 11155111=Sepolia
-api.etherscan.api_key=${ETHERSCAN_API_KEY:YOUR_KEY}     # Set via environment variable for security
+# Etherscan Configuration
+api.etherscan.base_url=https://api.etherscan.io/v2/api
+api.etherscan.chain_id=1
+api.etherscan.api_key=${ETHERSCAN_API_KEY:X76IWJ4VFP9F6D15SIIEIB6Y8SM458ZMAA}
+
+# Pagination
+api.etherscan.batch_size=10000
+
+# Rate Limiting
+api.rate_limit.delay_between_calls_ms=500
+api.rate_limit.delay_between_types_ms=2000
+
+# HTTP Timeouts
+http.client.connect_timeout_seconds=10
+http.client.request_timeout_seconds=30
 ```
 
-### Pagination Settings
+### Properties You May Want to Change:
 
-```properties
-# Batch Size (max records per API call)
-api.etherscan.batch_size=10000                           # Etherscan's maximum limit
-```
-
-### Rate Limiting
-
-```properties
-# Adjust based on your API tier
-api.rate_limit.delay_between_calls_ms=500                # Free tier: 5 calls/sec → 200ms minimum
-api.rate_limit.delay_between_types_ms=2000               # Cooling period between transaction types
-```
-
-### HTTP Client Settings
-
-```properties
-# Timeout configuration
-http.client.connect_timeout_seconds=10                   # Connection timeout
-http.client.request_timeout_seconds=30                   # Request timeout
-```
-
-### Common Customizations
-
-| Scenario | Property to Change | Recommended Value |
-|----------|-------------------|-------------------|
-| Faster fetching (paid API) | `delay_between_calls_ms` | `100` (10 calls/sec) |
-| Large wallet (>100k txns) | `batch_size` | `10000` (max) |
-| Testnet (Goerli) | `chain_id` | `5` |
-| Testnet (Sepolia) | `chain_id` | `11155111` |
-| Production security | `api_key` | Use environment variable |
-
----
-### Build Commands
-
-```bash
-# Clean build artifacts
-mvn clean
-
-# Compile source code
-mvn compile
-
-# Run all tests
-mvn test
-
-# Package as JAR
-mvn package
-
-# Run the application
-mvn exec:java -Dexec.args="0xAddress"
-```
-
-## 🔒 Error Handling
-
-### Validation
-
-- ✅ Ethereum address format (0x + 40 hex characters)
-- ✅ API key validation
-- ✅ HTTP status code checking
-- ✅ JSON parsing error handling
-
-### User-Friendly Messages
-
-```
-❌ Error: Invalid Ethereum address format
-   Expected: 0x followed by 40 hexadecimal characters
-   Example: 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045
-
-💡 Possible causes:
-   • Network connection issues
-   • Invalid API key
-   • Etherscan API rate limit exceeded
-   • File write permissions issue
-```
-
-## ✨ Features
-
-- ✅ Fetches all 4 Ethereum transaction types (Normal, Internal, ERC-20, ERC-721)
-- ✅ Block-range pagination for unlimited transaction history
-- ✅ Configurable rate limiting to prevent API throttling
-- ✅ Strategy Pattern for easy API provider switching
-- ✅ Comprehensive error handling and input validation
-- ✅ CSV export with 10-column format
-- ✅ Unit and integration tests (10 tests, 100% passing)
-- ✅ Configuration management with environment variables
-
-## 💾 CSV File Location
-
-The generated CSV file is saved in the **project root directory** with the Ethereum address as the filename.
-
-**Example:**
-```
-crypto-transaction-tracker/
-├── 0xa39b189482f984388a34460636fea9eb181ad1a6    ← Generated CSV file
-├── pom.xml
-├── README.md
-└── src/
-```
+| Property | Default | When to Change |
+|----------|---------|----------------|
+| `api.etherscan.api_key` | Default key | **Use your own for production** |
+| `api.rate_limit.delay_between_calls_ms` | 500ms | Increase if hitting rate limits |
+| `api.rate_limit.delay_between_types_ms` | 2000ms | Adjust based on API tier |
+| `api.etherscan.batch_size` | 10000 | Decrease for faster initial response |
 
 ---
 
-## � Class Diagram
+## 📐 Assumptions Made
 
-```
-┌─────────────────────────────────────────┐
-│          BlockchainApiClient            │  ◄─── Strategy Interface
-│         (interface)                     │
-├─────────────────────────────────────────┤
-│ + fetchNormalTransactions()             │
-│ + fetchInternalTransactions()           │
-│ + fetchErc20Transactions()              │
-│ + fetchErc721Transactions()             │
-│ + getProviderName()                     │
-└─────────────────────────────────────────┘
-                    △
-                    │ implements
-                    │
-        ┌───────────┴───────────┐
-        │                       │
-┌───────────────────┐   ┌─────────────────┐
-│ EtherscanApiClient│   │ AlchemyApiClient│  (future)
-├───────────────────┤   └─────────────────┘
-│ - config          │
-│ - httpClient      │
-│ - objectMapper    │
-├───────────────────┤
-│ + fetchAllPages() │
-│ + makeApiCall()   │
-└───────────────────┘
-         │
-         │ uses
-         ▼
-┌─────────────────┐       ┌──────────────────┐
-│ TransactionDto  │◄──────│   ApiResponse<T> │  ◄─── DTOs (API Layer)
-├─────────────────┤       ├──────────────────┤
-│ - hash          │       │ - status         │
-│ - blockNumber   │       │ - message        │
-│ - timestamp     │       │ - result         │
-│ - from, to      │       └──────────────────┘
-│ - value         │
-│ - gasPrice      │
-│ - gasUsed       │
-│ - tokenSymbol   │
-│ - tokenName     │
-│ - tokenID       │
-└─────────────────┘
-         │
-         │ mapped by
-         ▼
-┌──────────────────┐
-│TransactionMapper │  ◄─── Adapter Pattern
-├──────────────────┤
-│+ toNormalTxn()   │
-│+ toInternalTxn() │
-│+ toErc20Txn()    │
-│+ toErc721Txn()   │
-└──────────────────┘
-         │
-         │ produces
-         ▼
-┌─────────────────────┐
-│    Transaction      │  ◄─── Domain Models (POJOs)
-│    (abstract)       │
-├─────────────────────┤
-│ - hash              │
-│ - timestamp         │
-│ - from, to          │
-│ - value             │
-│ - gasFee            │
-│ - type              │
-├─────────────────────┤
-│ + toCsvRow()        │
-│ + getFormattedDate()│
-└─────────────────────┘
-          △
-          │ extends
-          │
-    ┌─────┴─────┬──────────┬──────────┐
-    │           │          │          │
-┌───────────┐ ┌──────────┐ ┌────────┐ ┌─────────┐
-│  Normal   │ │ Internal │ │ Erc20  │ │ Erc721  │
-│Transaction│ │Transaction│ │Transaction│ │Transaction│
-└───────────┘ └──────────┘ └────────┘ └─────────┘
-                                │          │
-                                │          ├─ tokenID
-                                │          └─ tokenName
-                                │
-                                ├─ tokenSymbol
-                                ├─ tokenName
-                                └─ tokenDecimal
-
-┌──────────────────────┐
-│ TransactionService   │  ◄─── Business Logic
-├──────────────────────┤
-│ - apiClient          │
-│ - config             │
-├──────────────────────┤
-│ + getAllTransactions()│
-└──────────────────────┘
-         │
-         │ uses
-         ▼
-┌──────────────────┐
-│   CsvExporter    │  ◄─── Export Layer
-├──────────────────┤
-│ + exportToCsv()  │
-│ + exportWithSummary()│
-└──────────────────┘
-
-┌──────────────────┐
-│   ApiConfig      │  ◄─── Configuration
-├──────────────────┤
-│ - properties     │
-├──────────────────┤
-│ + getApiKey()    │
-│ + getBatchSize() │
-│ + getRateLimit() │
-└──────────────────┘
-```
+1. **API Availability**: Etherscan API is available and returns valid JSON
+2. **Transaction Ordering**: Sorts by timestamp (ascending) after fetching
+3. **Gas Fee Calculation**: Gas fee = `gasUsed × gasPrice`
+4. **Network**: Targets Ethereum mainnet (chainid=1)
+5. **CSV Filename**: Uses the Ethereum address as filename
 
 ---
 
-**Built with ❤️ using Java 17, by Gopal for CoinTracker ❤️**
+## 🛠️ Dependencies
+
+| Dependency | Version | Purpose |
+|------------|---------|---------|
+| **Java** | 17+ | Core language |
+| **Jackson** | 2.15.2 | JSON parsing |
+| **OpenCSV** | 5.8 | CSV export |
+| **JUnit 5** | 5.10.0 | Testing |
+
+---
+
+**Built with ❤️ using Java 17 by Gopal, For Cointracker❤️**

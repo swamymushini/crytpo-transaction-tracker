@@ -77,7 +77,7 @@ public class EtherscanApiClient implements BlockchainApiClient {
             ApiResponse<List<TransactionDto>> response = makeApiCall(url);
             
             if (!response.isSuccess()) {
-                System.err.println("⚠️  Warning: " + response.getMessage());
+                System.err.println("Warning: " + response.getMessage());
                 break;
             }
             

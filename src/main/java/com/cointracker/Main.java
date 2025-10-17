@@ -23,9 +23,6 @@ public class Main {
         }
     }
     
-    /**
-     * Testable run method that throws exceptions instead of calling System.exit()
-     */
     public static String run(String[] args) throws Exception {
         printHeader();
         
@@ -45,7 +42,7 @@ public class Main {
         
         ApiConfig config = new ApiConfig();
         String provider = config.getApiProvider();
-        System.out.println("🔌 API Provider: " + provider);
+        System.out.println("API Provider: " + provider);
         
         BlockchainApiClient apiClient;
         switch (provider.toLowerCase()) {
@@ -58,9 +55,9 @@ public class Main {
                 throw new IllegalArgumentException("Unsupported API provider: " + provider);
         }
         
-        System.out.println("📍 Address: " + address);
+        System.out.println("Address: " + address);
         String apiKey = config.getEtherscanApiKey();
-        System.out.println("🔑 API Key: " + maskApiKey(apiKey));
+        System.out.println("API Key: " + maskApiKey(apiKey));
         System.out.println("=".repeat(80));
         System.out.println();
         
@@ -69,25 +66,25 @@ public class Main {
         
         List<Transaction> transactions = service.getAllTransactions(address);
         
-        System.out.println("\n💾 Exporting to CSV...");
+        System.out.println("\nExporting to CSV...");
         String summary = exporter.exportWithSummary(transactions, address);
         System.out.println(summary);
         
         System.out.println("\n" + "=".repeat(80));
-        System.out.println("✨ Transaction tracking complete!");
+        System.out.println("Transaction tracking complete!");
         System.out.println("=".repeat(80));
         
-        return address + ".csv"; // Return the filename with .csv extension
+        return address + ".csv"; 
     }
     
     private static void printHeader() {
         System.out.println("\n" + "=".repeat(80));
-        System.out.println("🔍 Ethereum Transaction Tracker");
+        System.out.println("Ethereum Transaction Tracker");
         System.out.println("=".repeat(80));
     }
     
     private static void printUsage() {
-        System.err.println("\n📖 Usage: java -jar eth-tracker.jar <ethereum_address>");
+        System.err.println("\nUsage: java -jar eth-tracker.jar <ethereum_address>");
     }
     
     private static String maskApiKey(String apiKey) {
