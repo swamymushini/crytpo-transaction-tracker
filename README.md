@@ -128,14 +128,16 @@ mvn clean compile
 mvn exec:java -Dexec.args="<ETHEREUM_ADDRESS>"
 ```
 
-**Example with sample address:**
+**Example with sample addresses:**
 ```bash
-# Vitalik's address (has all transaction types)
+# Sample address with all transaction types
 mvn exec:java -Dexec.args="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
 
-# Sample address with token transfers
+# Another sample address with token transfers
 mvn exec:java -Dexec.args="0xa39b189482f984388a34460636fea9eb181ad1a6"
 ```
+
+**Note:** The CSV file will be saved in the current directory (project root) with the Ethereum address as the filename.
 
 ### Expected Output
 
@@ -300,7 +302,7 @@ api.rate_limit.delay_between_types_ms=2000
 **Why:**
 - Keeps sensitive data (API keys) out of source code
 - Easy to change configuration without recompiling
-- Supports default values: `${ETHERSCAN_API_KEY:default_key}`
+- Falls back to default API key if environment variable is not set
 
 **Configuration:**
 ```properties
@@ -308,7 +310,11 @@ api.etherscan.api_key=${ETHERSCAN_API_KEY:X76IWJ4VFP9F6D15SIIEIB6Y8SM458ZMAA}
 api.etherscan.batch_size=10000
 ```
 
-**Benefit:** Secure and flexible configuration management.
+**How it works:**
+- If `ETHERSCAN_API_KEY` environment variable is set → uses that value
+- If not set → uses the default key `X76IWJ4VFP9F6D15SIIEIB6Y8SM458ZMAA`
+
+**Benefit:** Works out-of-the-box for testing, secure for production when using your own API key.
 
 ---
 
@@ -527,14 +533,17 @@ mvn exec:java -Dexec.args="0xAddress"
 - ✅ Unit and integration tests (10 tests, 100% passing)
 - ✅ Configuration management with environment variables
 
-## � Sample Ethereum Addresses for Testing
+## 💾 CSV File Location
 
-```bash
-# Sample address with 59 transactions (23 normal, 36 ERC-20)
-mvn exec:java -Dexec.args="0xa39b189482f984388a34460636fea9eb181ad1a6"
+The generated CSV file is saved in the **project root directory** with the Ethereum address as the filename.
 
-# Vitalik Buterin's address (has all transaction types including NFTs)
-mvn exec:java -Dexec.args="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
+**Example:**
+```
+crypto-transaction-tracker/
+├── 0xa39b189482f984388a34460636fea9eb181ad1a6    ← Generated CSV file
+├── pom.xml
+├── README.md
+└── src/
 ```
 
 ---

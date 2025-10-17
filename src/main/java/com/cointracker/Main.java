@@ -77,7 +77,7 @@ public class Main {
         System.out.println("✨ Transaction tracking complete!");
         System.out.println("=".repeat(80));
         
-        return address; // Return the filename (which is the address)
+        return address + ".csv"; // Return the filename with .csv extension
     }
     
     private static void printHeader() {

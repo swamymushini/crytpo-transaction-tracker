@@ -24,6 +24,11 @@ public class CsvExporter {
     };
     
     public void exportToCsv(List<Transaction> transactions, String filename) throws IOException {
+        // Add .csv extension if not present
+        if (!filename.toLowerCase().endsWith(".csv")) {
+            filename = filename + ".csv";
+        }
+        
         try (CSVWriter writer = new CSVWriter(new FileWriter(filename))) {
             // Write header
             writer.writeNext(HEADER);
@@ -39,6 +44,11 @@ public class CsvExporter {
     }
 
     public String exportWithSummary(List<Transaction> transactions, String filename) throws IOException {
+        // Add .csv extension if not present
+        if (!filename.toLowerCase().endsWith(".csv")) {
+            filename = filename + ".csv";
+        }
+        
         exportToCsv(transactions, filename);
         
         // Calculate statistics
