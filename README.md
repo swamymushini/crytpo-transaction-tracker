@@ -660,4 +660,4 @@ mvn exec:java -Dexec.args="0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"
 
 ---
 
-**Built with ❤️ using Java 17, Maven, and Clean Architecture principles**
+**Built with ❤️ using Java 17, by Gopal for CoinTracker ❤️**
